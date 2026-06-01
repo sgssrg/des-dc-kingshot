@@ -25,8 +25,13 @@
 		"upgrade": "sage upgrade"
 	},
 	"dependencies": {
+		"@langchain/core": "^1.1.48",
+		"@langchain/ollama": "^1.2.7",
+		"axios": "^1.16.1",
 		"discord.js": "^14.26.4",
 		"extensionless": "^2.0.6",
+		"pino": "^10.3.1",
+		"pino-pretty": "^13.1.3",
 		"robo.js": "^0.10.32"
 	},
 	"devDependencies": {

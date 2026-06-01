@@ -10,8 +10,7 @@ import { client } from 'robo.js'
  */
 export default () => {
 	client.user?.setActivity({
-		name: '✨ Built with Robo.js',
-		type: ActivityType.Custom,
-		url: 'https://robojs.dev'
+		name: 'DES DC!!! ON ROCK!',
+		type: ActivityType.Custom
 	})
 }
