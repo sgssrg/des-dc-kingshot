@@ -1,0 +1,42 @@
+{
+	"name": "des-dc-kingshot",
+	"description": "",
+	"version": "1.0.0",
+	"type": "module",
+	"private": true,
+	"keywords": [
+		"bot",
+		"discord",
+		"discord.js",
+		"robo",
+		"robo.js",
+		"typescript"
+	],
+	"scripts": {
+		"build": "robox build",
+		"deploy": "robox deploy",
+		"dev": "robox dev",
+		"doctor": "sage doctor",
+		"invite": "robox invite",
+		"lint": "bun lint:eslint && bun lint:style",
+		"lint:eslint": "eslint -c config/eslint.ts .",
+		"lint:style": "prettier --write .",
+		"start": "robox start",
+		"upgrade": "sage upgrade"
+	},
+	"dependencies": {
+		"discord.js": "^14.26.4",
+		"extensionless": "^2.0.6",
+		"robo.js": "^0.10.32"
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@swc/core": "^1.15.40",
+		"@types/node": "^25.9.1",
+		"eslint": "9",
+		"globals": "^17.6.0",
+		"prettier": "^3.8.3",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.60.0"
+	}
+}
