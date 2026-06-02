@@ -1,12 +1,16 @@
 import type { Message } from 'discord.js'
-import { Ollama } from '@langchain/ollama'
-import { SystemMessage, HumanMessage } from '@langchain/core/messages'
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { getLogger } from '~/lib/pino.log.js'
+import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 const logger = getLogger(import.meta)
-const translateLLM = new Ollama({
-	model: 'translategemma:4b',
-	maxRetries: 4,
-	verbose: true
+import { LangFuse } from '~/lib/LangFuse.js'
+
+const translateLLM = new ChatGoogleGenerativeAI({
+	model: 'gemma-4-31b-it',
+	apiKey: process.env.GEMINI_API_KEY,
+	verbose: true,
+	cache:true,
+	callbacks:[LangFuse]
 })
 
 export default async (message: Message) => {
@@ -19,13 +23,13 @@ export default async (message: Message) => {
 	if (!tMessage?.content) return
 	const detectMessage = [
 		new SystemMessage(
-			'You are a language detection and translation assistant. Identify the language of the text, return ISO 639-1 code; Output the message in the format "Detected Language: [Language Name](Language Code)" '
+			'You are a language detection and translation assistant. Identify the language of the text, return ISO 639-1 code; Output the message in the format "Detected Language: [Language Name](Language Code)"'
 		),
 		new HumanMessage(tMessage.content)
 	]
 	const response = await translateLLM.invoke(detectMessage)
 	logger.trace(response)
-	await tMessage.reply(response)
+	await tMessage.reply(extractText(response))
 }
 
 const fetchReferencedMessage = async (message: Message) => {
@@ -43,4 +47,11 @@ const fetchReferencedMessage = async (message: Message) => {
 	} catch (error) {
 		logger.error('Error' + JSON.stringify(error))
 	}
+}
+function extractText(msg:any) {
+  if (Array.isArray(msg.content)) {
+    const textEntry = msg.content.find(c => c.type === "text")
+    return textEntry?.text ?? ""
+  }
+  return msg.content ?? ""
 }
